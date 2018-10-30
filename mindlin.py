@@ -54,6 +54,8 @@ def mindlin(a,b,v,Q,l,r,z):
              + 2*(2-v)*log((A+m-1)/(F+m)*(B+m+1)/(F+m)))
 
 
+    print(Ip,Is1,Is2)
+
     #侧端阻力在深度z处产生的应力
     stress_tip =  a*Q/l**2*Ip
     # 侧摩阻力在深度z处产生的应力
@@ -63,7 +65,7 @@ def mindlin(a,b,v,Q,l,r,z):
 
 #测试
 # #     mindlin(a,  b,  v,  Q,   l,r, z):
-value = mindlin(0.5,0.3,0.7,1389.108193,15,0.4,15)
+value = mindlin(0.3,0,0.7,1389.108193,15,4,15)
 print(value[0],value[1])
 
 

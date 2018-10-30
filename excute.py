@@ -10,6 +10,8 @@ for row in ws_1.iter_rows(min_row=2):
     stiff = stiffness(num)
     write_stiffness(num,stiff)
 
+print('done!')
+
 
 # a = stiffness(300)
 # write_stiffness(300,a)

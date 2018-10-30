@@ -58,9 +58,9 @@ def stiffness(num):
                 #计算并累加附加应力值
                 m = mindlin(a, b, v, Q, l, r, z)
                 stress += m[0] + m[1]
-                print(a, b, v, Q, l, r, z)
-                print(m[0] , m[1])
-                print(stress)
+                # print(a, b, v, Q, l, r, z)
+                # print(m[0] , m[1])
+                # print(stress)
 
 
             sum_s += stress*h/Es   #累计沉降值
@@ -72,4 +72,4 @@ def stiffness(num):
 
 
 #测试
-print(stiffness(200))
+# print(stiffness(200))
