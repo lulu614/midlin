@@ -41,7 +41,9 @@ def load_paramenter():
 
 #找到范围内的桩坐标
 def sereach_num(num,pile_dict):
-    num_list = []
+
+    r = pile_dict[num][6]/2
+    num_list = [[num,r]]
     x_0 = pile_dict[num][0]
     y_0 = pile_dict[num][1]
     for i in pile_dict.keys():
@@ -57,11 +59,9 @@ def sereach_num(num,pile_dict):
 #获得对应编号的范围内桩的所有参数
 #num  桩编号
 #pile_dict  全部参数字典
-def search_num(num,pile_dict):
+def get_list(num,pile_dict):
+
     pile_dict_choose = {}
-    temp = pile_dict[num][2:]
-    temp.append(0)
-    pile_dict_choose[num] = temp
 
     num_list = sereach_num(num,pile_dict)
     for i in num_list:
@@ -70,8 +70,8 @@ def search_num(num,pile_dict):
         temp = pile_dict[n][2:]
         temp.append(r)
         pile_dict_choose[n] = temp
+        #pile_dict_choose  [a,b,Q,l,d,soil_layer,r]
 
-#pile_dict_choose  [a,b,Q,l,d,soil_layer,r]
     return pile_dict_choose
 
 

@@ -1,5 +1,5 @@
 from mindlin import mindlin
-from load_paramenter import load_paramenter,search_num
+from load_paramenter import load_paramenter,get_list
 
 #导入参数
 # num   编号
@@ -17,54 +17,54 @@ from load_paramenter import load_paramenter,search_num
 
 def stiffness(num):
     pile_dict_all = load_paramenter()
-    pile_dict = search_num(num,pile_dict_all)
+    pile_dict = get_list(num,pile_dict_all)
     # num_list = pile_dict.keys()
 
+    #  去掉桩底以上部分--------------->未解决
 
-    soil_list = pile_dict[num][5]      #  去掉桩底以上部分--------------->未解决
-    soil_size = len(soil_list)
+    l = pile_dict[num][3]            #桩长
+    soil_list = pile_dict[num][5]      #对应编号桩参数
 
-    z = 0   #深度
+    z = l   #深度
     sum_s = 0   #沉降
-    for i in range(soil_size):      #分土层计算
+    for i in soil_list:      #分土层计算
 
-        soil_list_i = soil_list[i]
+        # 土层参数
+        h = i[0]
+        Es = i[1]
+        v = i[2]
 
-        #土层参数
-        h = soil_list_i[0]
-        Es = soil_list_i[1]
-        v = soil_list_i[2]
+        #建立h_list ——分层列表
+        thickness = 2  # 分层厚度-------可修改
+        if isinstance(h/thickness,int):
+            soil_list_i_size = h // thickness       #分层数
+            h_list = soil_list_i_size*[thickness]
+        else:
+            soil_list_i_size = h//thickness+1
+            h_last = h - (thickness*soil_list_i_size-1)        #最后一层厚度
+            h_list = soil_list_i_size * [thickness]+[h_last]
 
-        thickness = 2       #分层厚度-------可修改
-
-        soil_list_i_size = h//thickness+1      #分层数
-        h_last = h - (thickness*soil_list_i_size-1)        #最后一层厚度
-
-        for j in range(soil_list_i_size):          #按thickness分层计算
-
-            #判断是否是最后一层
-            if j == soil_list_i_size-1:
-                h_j = h_last
-            else:
-                h_j = thickness
+        for h in h_list:          #按thickness分层计算
 
             stress = 0   #附加应力值
             for k in pile_dict:
-                # 桩参数
+
                 a = pile_dict[k][0]  # 桩端阻力系数
                 b = pile_dict[k][1]  # 沿桩身均匀分布荷载系数
-
-                # 荷载参数
                 Q = pile_dict[k][2]  # 单桩在竖向荷载的准永久组合作用下的附加荷载
                 l = pile_dict[k][3]  # 长度
-                r = pile_dict[k][6]-pile_dict[k][6]/2  #距离
+                r = pile_dict[k][6]  #距离
 
                 #计算并累加附加应力值
                 m = mindlin(a, b, v, Q, l, r, z)
                 stress += m[0] + m[1]
+                print(a, b, v, Q, l, r, z)
+                print(m[0] , m[1])
+                print(stress)
 
-            sum_s += stress*h_j/Es   #累计沉降值
-            z += h_j    #累计深度值
+
+            sum_s += stress*h/Es   #累计沉降值
+            z += h    #累计深度值
 
     Q = pile_dict[num][2]
     E = Q/sum_s*1000
@@ -72,4 +72,4 @@ def stiffness(num):
 
 
 #测试
-#print(sedimentation(200))
+print(stiffness(200))

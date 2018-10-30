@@ -12,8 +12,6 @@ from math import pi,log,sqrt
 
 def mindlin(a,b,v,Q,l,r,z):
 
-    if r == 0:
-       r = 0.3
 
     #参数转换
     m = z/l
@@ -64,8 +62,8 @@ def mindlin(a,b,v,Q,l,r,z):
 
 
 #测试
-# #     mindlin(a,  b,  v,  Q,   r,l, z):
-value = mindlin(0.5,0.3,0.6,1000,5,15,20)
+# #     mindlin(a,  b,  v,  Q,   l,r, z):
+value = mindlin(0.5,0.3,0.7,1389.108193,15,0.4,15)
 print(value[0],value[1])
 
 
