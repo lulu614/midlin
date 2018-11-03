@@ -1,61 +1,63 @@
+# -*- coding: gbk -*-
+
 from mindlin import mindlin
 from load_paramenter import load_paramenter,get_list
 
-#å¯¼å…¥å‚æ•°
-# num   ç¼–å·
-# x,y   åæ ‡
-# a     æ¡©ç«¯é˜»åŠ›æ¯”
-# b     æ²¿æ¡©èº«å‡åŒ€åˆ†å¸ƒçš„æ¡©ä¾§æ‘©é˜»åŠ›æ¯”
-# v     åœ°åŸºåœŸçš„æ³Šæ¾æ¯”
-# Q     å•æ¡©åœ¨ç«–å‘è·è½½çš„å‡†æ°¸ä¹…ç»„åˆä½œç”¨ä¸‹çš„é™„åŠ è·è½½
-# l     æ¡©é•¿
-# r     è®¡ç®—ç‚¹ç¦»æ¡©èº«è½´çº¿çš„æ°´å¹³è·ç¦»
-# h     åšåº¦
-# Es    å‹ç¼©æ¨¡é‡
-# v     æ³Šæ¾æ¯”
-#æ¡©å‚æ•°   {num:[x,y,a,b,Q,l,d,[(h,Es,v),...]],...}
+#µ¼Èë²ÎÊı
+# num   ±àºÅ
+# x,y   ×ø±ê
+# a     ×®¶Ë×èÁ¦±È
+# b     ÑØ×®Éí¾ùÔÈ·Ö²¼µÄ×®²àÄ¦×èÁ¦±È
+# v     µØ»ùÍÁµÄ²´ËÉ±È
+# Q     µ¥×®ÔÚÊúÏòºÉÔØµÄ×¼ÓÀ¾Ã×éºÏ×÷ÓÃÏÂµÄ¸½¼ÓºÉÔØ
+# l     ×®³¤
+# r     ¼ÆËãµãÀë×®ÉíÖáÏßµÄË®Æ½¾àÀë
+# h     ºñ¶È
+# Es    Ñ¹ËõÄ£Á¿
+# v     ²´ËÉ±È
+#×®²ÎÊı   {num:[x,y,a,b,Q,l,d,[(h,Es,v),...]],...}
 
 def stiffness(num):
     pile_dict_all = load_paramenter()
     pile_dict = get_list(num,pile_dict_all)
     # num_list = pile_dict.keys()
 
-    #  å»æ‰æ¡©åº•ä»¥ä¸Šéƒ¨åˆ†--------------->æœªè§£å†³
+    #  È¥µô×®µ×ÒÔÉÏ²¿·Ö--------------->Î´½â¾ö
 
-    l = pile_dict[num][3]            #æ¡©é•¿
-    soil_list = pile_dict[num][5]      #å¯¹åº”ç¼–å·æ¡©å‚æ•°
+    l = pile_dict[num][3]            #×®³¤
+    soil_list = pile_dict[num][5]      #¶ÔÓ¦±àºÅ×®²ÎÊı
 
-    z = l   #æ·±åº¦
-    sum_s = 0   #æ²‰é™
-    for i in soil_list:      #åˆ†åœŸå±‚è®¡ç®—
+    z = l   #Éî¶È
+    sum_s = 0   #³Á½µ
+    for i in soil_list:      #·ÖÍÁ²ã¼ÆËã
 
-        # åœŸå±‚å‚æ•°
+        # ÍÁ²ã²ÎÊı
         h = i[0]
         Es = i[1]
         v = i[2]
 
-        #å»ºç«‹h_list â€”â€”åˆ†å±‚åˆ—è¡¨
-        thickness = 2  # åˆ†å±‚åšåº¦-------å¯ä¿®æ”¹
+        #½¨Á¢h_list ¡ª¡ª·Ö²ãÁĞ±í
+        thickness = 2  # ·Ö²ãºñ¶È-------¿ÉĞŞ¸Ä
         if isinstance(h/thickness,int):
-            soil_list_i_size = h // thickness       #åˆ†å±‚æ•°
+            soil_list_i_size = h // thickness       #·Ö²ãÊı
             h_list = soil_list_i_size*[thickness]
         else:
             soil_list_i_size = h//thickness+1
-            h_last = h - (thickness*soil_list_i_size-1)        #æœ€åä¸€å±‚åšåº¦
+            h_last = h - (thickness*soil_list_i_size-1)        #×îºóÒ»²ãºñ¶È
             h_list = soil_list_i_size * [thickness]+[h_last]
 
-        for h in h_list:          #æŒ‰thicknessåˆ†å±‚è®¡ç®—
+        for h in h_list:          #°´thickness·Ö²ã¼ÆËã
 
-            stress = 0   #é™„åŠ åº”åŠ›å€¼
+            stress = 0   #¸½¼ÓÓ¦Á¦Öµ
             for k in pile_dict:
 
-                a = pile_dict[k][0]  # æ¡©ç«¯é˜»åŠ›ç³»æ•°
-                b = pile_dict[k][1]  # æ²¿æ¡©èº«å‡åŒ€åˆ†å¸ƒè·è½½ç³»æ•°
-                Q = pile_dict[k][2]  # å•æ¡©åœ¨ç«–å‘è·è½½çš„å‡†æ°¸ä¹…ç»„åˆä½œç”¨ä¸‹çš„é™„åŠ è·è½½
-                l = pile_dict[k][3]  # é•¿åº¦
-                r = pile_dict[k][6]  #è·ç¦»
+                a = pile_dict[k][0]  # ×®¶Ë×èÁ¦ÏµÊı
+                b = pile_dict[k][1]  # ÑØ×®Éí¾ùÔÈ·Ö²¼ºÉÔØÏµÊı
+                Q = pile_dict[k][2]  # µ¥×®ÔÚÊúÏòºÉÔØµÄ×¼ÓÀ¾Ã×éºÏ×÷ÓÃÏÂµÄ¸½¼ÓºÉÔØ
+                l = pile_dict[k][3]  # ³¤¶È
+                r = pile_dict[k][6]  #¾àÀë
 
-                #è®¡ç®—å¹¶ç´¯åŠ é™„åŠ åº”åŠ›å€¼
+                #¼ÆËã²¢ÀÛ¼Ó¸½¼ÓÓ¦Á¦Öµ
                 m = mindlin(a, b, v, Q, l, r, z)
                 stress += m[0] + m[1]
                 # print(a, b, v, Q, l, r, z)
@@ -63,13 +65,13 @@ def stiffness(num):
                 # print(stress)
 
 
-            sum_s += stress*h/Es   #ç´¯è®¡æ²‰é™å€¼
-            z += h    #ç´¯è®¡æ·±åº¦å€¼
+            sum_s += stress*h/Es   #ÀÛ¼Æ³Á½µÖµ
+            z += h    #ÀÛ¼ÆÉî¶ÈÖµ
 
     Q = pile_dict[num][2]
     E = Q/sum_s*1000
     return E
 
 
-#æµ‹è¯•
+#²âÊÔ
 # print(stiffness(200))

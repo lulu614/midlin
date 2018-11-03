@@ -1,6 +1,9 @@
+# -*- coding: gbk -*-
+
 from stiffness import stiffness
 from write_stiffness import write_stiffness
 from openpyxl import load_workbook
+
 
 wb_1 = load_workbook('paramenter.xlsx')
 ws_1 = wb_1.active

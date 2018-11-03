@@ -1,11 +1,13 @@
+# -*- coding: gbk -*-
+
 import math
 from openpyxl import load_workbook
 
 
-#å¯¼å…¥å…¨éƒ¨å‚æ•°
+#µ¼ÈëÈ«²¿²ÎÊı
 def load_paramenter():
 
-    #æ‰“å¼€Excelè¡¨æ ¼
+    #´ò¿ªExcel±í¸ñ
     wb_1 = load_workbook('paramenter.xlsx')
     ws_1 = wb_1.active
     wb_2 = load_workbook('soil.xlsx')
@@ -22,7 +24,7 @@ def load_paramenter():
         l = i[6].value
         d = i[7].value
 
-        # å¯¼å…¥æ‰€åœ¨ä½ç½®æ‰€æœ‰åœŸå±‚åšåº¦&Eså‹ç¼©æ¨¡é‡&væ³Šæ¾æ¯”
+        # µ¼ÈëËùÔÚÎ»ÖÃËùÓĞÍÁ²ãºñ¶È&EsÑ¹ËõÄ£Á¿&v²´ËÉ±È
         soil_layer = []
         for j in ws_2.iter_rows(min_row=2):
             if j[0].value < num:
@@ -31,7 +33,7 @@ def load_paramenter():
                 h = j[1].value
                 Es = j[2].value
                 v = j[3].value
-                soil_layer.append((h,Es,v))         # åœŸå±‚åšåº¦&Eså‹ç¼©æ¨¡é‡&væ³Šæ¾æ¯”
+                soil_layer.append((h,Es,v))         # ÍÁ²ãºñ¶È&EsÑ¹ËõÄ£Á¿&v²´ËÉ±È
             else:
                 break
         pile_dict[num] = [x,y,a,b,Q,l,d,soil_layer]
@@ -39,7 +41,7 @@ def load_paramenter():
 
 
 
-#æ‰¾åˆ°èŒƒå›´å†…çš„æ¡©åæ ‡
+#ÕÒµ½·¶Î§ÄÚµÄ×®×ø±ê
 def sereach_num(num,pile_dict):
 
     r = pile_dict[num][6]/2
@@ -56,9 +58,9 @@ def sereach_num(num,pile_dict):
 
 
 
-#è·å¾—å¯¹åº”ç¼–å·çš„èŒƒå›´å†…æ¡©çš„æ‰€æœ‰å‚æ•°
-#num  æ¡©ç¼–å·
-#pile_dict  å…¨éƒ¨å‚æ•°å­—å…¸
+#»ñµÃ¶ÔÓ¦±àºÅµÄ·¶Î§ÄÚ×®µÄËùÓĞ²ÎÊı
+#num  ×®±àºÅ
+#pile_dict  È«²¿²ÎÊı×Öµä
 def get_list(num,pile_dict):
 
     pile_dict_choose = {}
@@ -75,6 +77,6 @@ def get_list(num,pile_dict):
     return pile_dict_choose
 
 
-#æµ‹è¯•
+#²âÊÔ
 # pile_dict_choose = search_num(249,load_paramenter())
 # print(pile_dict_choose)

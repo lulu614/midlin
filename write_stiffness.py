@@ -1,6 +1,8 @@
+#  -*- coding: gbk -*-
+
 from openpyxl import load_workbook
 
-#å†™å…¥æ¡©åˆšåº¦
+#Ð´Èë×®¸Õ¶È
 def write_stiffness(num,stiffness):
 
     wb_1 = load_workbook('paramenter.xlsx')
@@ -15,5 +17,5 @@ def write_stiffness(num,stiffness):
         else:
             break
 
-#æµ‹è¯•
+#²âÊÔ
 #write_stiffness(197,2000)
